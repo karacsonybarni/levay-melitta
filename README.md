@@ -12,6 +12,14 @@ Node.js 22 or later. Run `npm ci`, `npm test`, `npm run build`. Use `npm run dev
 
 ## Free hosting and CI/CD
 
+Live site: https://karacsonybarni.github.io/levay-melitta/
+
+Apps Script editor: https://script.google.com/home/projects/1wpaViJRSJV0daolAlGEUTxcsfBcIvQPPFyMv51pUKKxNxSNVWimA0gx_/edit
+
+Public backend: https://script.google.com/macros/s/AKfycbyOBIMGl7llKgzZ97QJIDt_ofdJtJDxXTt7FOb3TomB6GsnWkxT3ztHcSkXzDd2G5t8/exec
+
+Both frontend and backend CI/CD are configured and enabled. The Google deployment uses the setup owner's account and the separate **Lévay Melitta — website appointments** calendar.
+
 The public repository deploys to GitHub Pages. `.github/workflows/deploy-pages.yml` runs backend regression tests, TypeScript checks, and the production build on pull requests and main pushes. Only successful main builds deploy. Set Pages source to **GitHub Actions**. Repository variable `VITE_APPS_SCRIPT_WEB_APP_URL` is the public backend URL, not a credential.
 
 GitHub Pages and consumer Apps Script have no hosting subscription cost within their service limits. Apps Script daily mail/execution quotas apply; no unlimited delivery guarantee is made.
@@ -41,3 +49,5 @@ Research date: 2026-09-21. [GRLICA LAW on Awwwards](https://www.awwwards.com/ins
 ## Validation
 
 `npm test` covers calendar overlap, stale slots, booking locks, retry deduplication, availability-cache invalidation and HTML response escaping. Real Google authorization, delivery and deployment need live smoke checks. Preview owner details in the bilingual privacy copy must be updated when ownership transfers to Melitta.
+
+Live verification on 2026-09-21: Hungarian contact submission returned success and arrived in the configured Gmail inbox. English booking created a 55-minute event in the dedicated calendar, delivered the invitation and owner notification, and removed the selected and overlapping slots from anonymous availability. The disposable test booking was removed afterward. Backend GitHub Actions run `35611030874` successfully published a new version using the same public URL. Frontend workflow run `35610750796` successfully deployed the connected site. An independent reviewer cleared the implementation, security fixes, workflows, and deployment manifest. Professional details and production privacy wording still need Melitta's confirmation.
