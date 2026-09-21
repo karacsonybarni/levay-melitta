@@ -1,0 +1,39 @@
+# Lévay Melitta website
+
+Hungarian-first, English-supported static website with a separate Google Apps Script email and appointment backend. Built with TypeScript and Vite, with locally bundled fonts and CSS artwork. No paid server, database, analytics, or marketing cookies.
+
+## Status and content
+
+This is a shareable **preview**, deliberately marked `noindex`. Melitta's verified professional title, practice areas, biography, bar registration, office address, contact details and approved privacy notice have not been provided. Do not remove the preview notice until these are verified. No credentials, awards, testimonials or case outcomes have been invented. The initial integration uses the setup owner's Google account and a dedicated calendar; test data only until the production controller and privacy terms are finalized.
+
+## Development
+
+Node.js 22 or later. Run `npm ci`, `npm test`, `npm run build`. Use `npm run dev` for local development. Copy `.env.example` to `.env.local` and set the dedicated Apps Script `/exec` URL to test integration. Never point this site at the Integral Counseling endpoint.
+
+## Free hosting and CI/CD
+
+The public repository deploys to GitHub Pages. `.github/workflows/deploy-pages.yml` runs backend regression tests, TypeScript checks, and the production build on pull requests and main pushes. Only successful main builds deploy. Set Pages source to **GitHub Actions**. Repository variable `VITE_APPS_SCRIPT_WEB_APP_URL` is the public backend URL, not a credential.
+
+GitHub Pages and consumer Apps Script have no hosting subscription cost within their service limits. Apps Script daily mail/execution quotas apply; no unlimited delivery guarantee is made.
+
+## Google backend
+
+`apps-script/Code.gs` adapts the calendar caching, conflict checks, locking and booking retry protection from the user-owned `integral-counseling` project. Only free start times are public. Calendar titles, guests and event details stay server-side. MailApp delivers enquiries into the configured Gmail inbox, using the visitor's address as reply-to; it does not read the inbox.
+
+1. Create a dedicated Apps Script project and copy `Code.gs`, `Setup.gs`, and `appsscript.json`.
+2. Run `setupWebsite` once as the intended account owner and authorize Google Calendar and email sending. This creates a dedicated calendar and saves `BOOKING_CALENDAR_ID` and `RECIPIENT_EMAIL` in Script Properties. It does not modify Integral Counseling's script or calendar.
+3. Deploy as a web app, executing as the owner, accessible to Anyone. Put its `/exec` URL in the GitHub repository variable above.
+4. Test a contact message and a booking with controlled test data. Confirm the email, event, calendar invitation and disappearance of the booked slot.
+5. Redeploy a new version of the same web-app deployment after backend changes. The existing URL remains stable. Frontend GitHub Actions deployment does not automatically deploy Apps Script unless the optional backend workflow below is configured.
+
+Default preview appointment settings match the reference implementation: 55 minutes, starts every 30 minutes, 09:00–20:00 daily, 24 hours' notice, a 60-day horizon, and Europe/Budapest time. Agree Melitta's actual working hours and fees before production use. Dedicated-calendar availability does not automatically reflect events on other calendars.
+
+The endpoint is public and uses light bot filtering (honeypot and minimum elapsed time), not a full abuse-prevention service. Do not collect confidential legal documents through it. Booking retries with the same browser-held request ID avoid duplicate events; uncertain responses should be checked against the invitation before retrying from a new page.
+
+## Design references
+
+Research date: 2026-09-21. [GRLICA LAW on Awwwards](https://www.awwwards.com/inspiration/website-overview-grlica-law), [Normand PLLC](https://www.normandpllc.com/), and [law-firm design examples](https://blockagency.co/blog/law-firm-website-designs/) informed the editorial hierarchy, restrained navigation, generous space and clear contact path. This site uses original CSS composition and does not copy photographs or another firm's claims.
+
+## Validation
+
+`npm test` covers calendar overlap, stale slots, booking locks, retry deduplication, availability-cache invalidation and HTML response escaping. Real Google authorization, delivery and deployment need live smoke checks. Preview owner details in the bilingual privacy copy must be updated when ownership transfers to Melitta.
