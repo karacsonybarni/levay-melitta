@@ -44,7 +44,12 @@ The endpoint is public and uses light bot filtering (honeypot and minimum elapse
 
 ## Design references
 
-Research date: 2026-09-21. [GRLICA LAW on Awwwards](https://www.awwwards.com/inspiration/website-overview-grlica-law), [Normand PLLC](https://www.normandpllc.com/), and [law-firm design examples](https://blockagency.co/blog/law-firm-website-designs/) informed the editorial hierarchy, restrained navigation, generous space and clear contact path. This site uses original CSS composition and does not copy photographs or another firm's claims.
+Visual research date: 2026-09-21. The original version relied on text-only research and did not adequately apply the requested legal design references. The revised design follows direct browser screenshot inspection of:
+
+- [Kümmerlein](https://www.kuemmerlein.de/): a distinctive monogram, confident serif headline with sans-serif navigation, generous spacing and a clear identity. Its [German Brand Award case](https://www.german-brand-award.com/en/gallery/detail/brand-design-corporate-brand/kuemmerlein-anwaelte-notare) supplies award context. Applied here: serif/sans hierarchy, a distinctive original LM mark, and a strong name treatment. No firm photographs or claims are reused.
+- [GRLICA LAW](https://www.grlicalaw.com/): high-contrast dark composition, oversized typography and prominent contact actions. Applied here: dark identity and process panels, emphatic typography and a clear primary enquiry action. The neon palette, 3D statue and animation are not adopted because this brief calls for a simple, restrained site.
+
+The original identity uses ink, paper and burgundy, straight rules, upright typography and precise legal-process language. Integral Counseling is exclusively the backend/integration reference. The layout starts with phone styles; desktop grids are added at larger breakpoints. No fabricated portrait, office, practice specialty or professional credential is used.
 
 ## Validation
 
