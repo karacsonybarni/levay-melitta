@@ -1,6 +1,6 @@
 # Lévay Melitta website
 
-Hungarian-first, English-supported static website with a separate Google Apps Script email and appointment backend. Built with TypeScript and Vite, with locally bundled fonts and CSS artwork. No paid server, database, analytics, or marketing cookies.
+Hungarian-first, English-supported static website with a separate Google Apps Script email and appointment backend. Built with TypeScript and Vite, with locally bundled fonts and original SVG linework. No paid server, database, analytics, or marketing cookies.
 
 ## Status and content
 
@@ -44,12 +44,17 @@ The endpoint is public and uses light bot filtering (honeypot and minimum elapse
 
 ## Design references
 
-Visual research date: 2026-09-21. The original version relied on text-only research and did not adequately apply the requested legal design references. The revised design follows direct browser screenshot inspection of:
+Visual research date: 2026-09-21. Direct browser screenshot inspection of [Kümmerlein](https://www.kuemmerlein.de/) and [GRLICA LAW](https://www.grlicalaw.com/) informed the redesign: prominent firm identity, strong typographic scale, high contrast, structured navigation, and direct contact access. Kümmerlein's [German Brand Award case](https://www.german-brand-award.com/en/gallery/detail/brand-design-corporate-brand/kuemmerlein-anwaelte-notare) provides award context. These are specific visual references, not a claim that one palette represents the whole legal industry.
 
-- [Kümmerlein](https://www.kuemmerlein.de/): a distinctive monogram, confident serif headline with sans-serif navigation, generous spacing and a clear identity. Its [German Brand Award case](https://www.german-brand-award.com/en/gallery/detail/brand-design-corporate-brand/kuemmerlein-anwaelte-notare) supplies award context. Applied here: serif/sans hierarchy, a distinctive original LM mark, and a strong name treatment. No firm photographs or claims are reused.
-- [GRLICA LAW](https://www.grlicalaw.com/): high-contrast dark composition, oversized typography and prominent contact actions. Applied here: dark identity and process panels, emphatic typography and a clear primary enquiry action. The neon palette, 3D statue and animation are not adopted because this brief calls for a simple, restrained site.
+The current UI is a structural rebuild. It replaces the former split hero / values / three-step process / embedded contact-form landing page with:
 
-The original identity uses ink, paper and burgundy, straight rules, upright typography and precise legal-process language. Integral Counseling is exclusively the backend/integration reference. The layout starts with phone styles; desktop grids are added at larger breakpoints. No fabricated portrait, office, practice specialty or professional credential is used.
+- A full-width sans-serif name masthead and original architectural linework.
+- A large contact directory and native expandable practical-information sections.
+- Dedicated enquiry and appointment views, linked through query parameters so GitHub Pages can serve direct links without rewrite rules.
+- Numbered intake fields and separate day/time controls populated from live availability.
+- A navy, white and cobalt system, with phone layouts as the default and larger-screen grids added progressively.
+
+Integral Counseling is exclusively the backend/integration reference. No invented professional specialty, portrait, office, award or client result appears. The original reskin was rejected because it retained the structure; that structure and stylesheet have now been replaced.
 
 ## Validation
 
