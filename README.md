@@ -24,7 +24,11 @@ GitHub Pages and consumer Apps Script have no hosting subscription cost within t
 2. Run `setupWebsite` once as the intended account owner and authorize Google Calendar and email sending. This creates a dedicated calendar and saves `BOOKING_CALENDAR_ID` and `RECIPIENT_EMAIL` in Script Properties. It does not modify Integral Counseling's script or calendar.
 3. Deploy as a web app, executing as the owner, accessible to Anyone. Put its `/exec` URL in the GitHub repository variable above.
 4. Test a contact message and a booking with controlled test data. Confirm the email, event, calendar invitation and disappearance of the booked slot.
-5. Redeploy a new version of the same web-app deployment after backend changes. The existing URL remains stable. Frontend GitHub Actions deployment does not automatically deploy Apps Script unless the optional backend workflow below is configured.
+5. Redeploy a new version of the same web-app deployment after backend changes. The existing URL remains stable. Frontend GitHub Actions deployment does not automatically deploy Apps Script unless the backend workflow below is configured.
+
+### Backend CI/CD activation
+
+`.github/workflows/deploy-backend.yml` verifies and publishes backend changes on main, retaining the existing deployment URL. It stays disabled until the first live Google setup and smoke test succeed. Configure the `google-backend` GitHub environment with secret `CLASP_AUTH` (the official CLI authorization JSON, never committed) and variables `APPS_SCRIPT_ID` and `APPS_SCRIPT_DEPLOYMENT_ID`. Set repository variable `APPS_SCRIPT_CI_ENABLED=true` only after configuration. The runner writes credentials to a temporary file with restrictive permissions and removes it afterward. Only main can deploy; pull requests do not receive credentials. If authorization is revoked, renew the secret through the official Google login flow. Scope changes can still require owner authorization in Google's editor.
 
 Default preview appointment settings match the reference implementation: 55 minutes, starts every 30 minutes, 09:00–20:00 daily, 24 hours' notice, a 60-day horizon, and Europe/Budapest time. Agree Melitta's actual working hours and fees before production use. Dedicated-calendar availability does not automatically reflect events on other calendars.
 

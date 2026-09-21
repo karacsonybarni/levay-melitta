@@ -1,0 +1,52 @@
+name: Deploy Google backend
+on:
+  push:
+    branches: [main]
+    paths:
+      - apps-script/**
+      - .github/workflows/deploy-backend.yml
+      - package-lock.json
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: google-backend
+  cancel-in-progress: false
+jobs:
+  deploy:
+    # Enable only after the owner has authorized and smoke-tested the web app.
+    if: github.ref == 'refs/heads/main' && vars.APPS_SCRIPT_CI_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: google-backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Configure deployment
+        env:
+          CLASP_AUTH: ${{ secrets.CLASP_AUTH }}
+          SCRIPT_ID: ${{ vars.APPS_SCRIPT_ID }}
+          DEPLOYMENT_ID: ${{ vars.APPS_SCRIPT_DEPLOYMENT_ID }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          const {CLASP_AUTH, SCRIPT_ID, DEPLOYMENT_ID, RUNNER_TEMP} = process.env;
+          if (!CLASP_AUTH || !SCRIPT_ID || !DEPLOYMENT_ID) throw new Error('Missing Google deployment configuration');
+          JSON.parse(CLASP_AUTH);
+          fs.writeFileSync(path.join(RUNNER_TEMP, 'melitta-clasp-auth.json'), CLASP_AUTH, {mode: 0o600});
+          fs.writeFileSync('.clasp.json', JSON.stringify({scriptId: SCRIPT_ID, rootDir: 'apps-script', scriptExtensions: ['.gs'], htmlExtensions: ['.html'], jsonExtensions: ['.json']}));
+          JS
+      - name: Publish a new backend version
+        env:
+          DEPLOYMENT_ID: ${{ vars.APPS_SCRIPT_DEPLOYMENT_ID }}
+        run: |
+          npx --no-install clasp --auth "$RUNNER_TEMP/melitta-clasp-auth.json" push --force
+          npx --no-install clasp --auth "$RUNNER_TEMP/melitta-clasp-auth.json" deploy --deploymentId "$DEPLOYMENT_ID" --description "GitHub $GITHUB_SHA"
+      - name: Remove runner credentials
+        if: always()
+        run: rm -f "$RUNNER_TEMP/melitta-clasp-auth.json"
